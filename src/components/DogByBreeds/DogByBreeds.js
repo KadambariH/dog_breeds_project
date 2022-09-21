@@ -1,4 +1,4 @@
-        import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllDogBreeds } from '../../redux/actions/byBreedsActions';
 
@@ -8,28 +8,26 @@ const DogByBreeds = () => {
     const dispatch = useDispatch();
     const { isLoading, dogBreeds, error } = useSelector(state => state.dogsByBreed);
     const {message} = dogBreeds;
-
-
+    const [count, setCount ] = useState(12)
 
     useEffect(() => {
         dispatch(getAllDogBreeds())
     }, [])
 
-
-    function showDogBreeds(msg)
+    function showDogBreeds(msg, count)
 {
-    return msg.filter((item, i) => i <= 11 ).map((item, i) => <img src={item} key={i} />)
+    // return msg.filter((item, i) => i <= 11 ).map((item, i) => <img src={item} key={i} />)
+    return msg.slice(0 , count).map((item, i) => <img src={item} key={i} />)
 }
  
 return (
         <div>
-        {message?.length > 0 && showDogBreeds(message)}
+        {message?.length > 0 && showDogBreeds(message, count)}
+        <button onClick={() => setCount(count + 12)} >Load More</button>
         </div>
 
     )
 }  
-
-
 
 export default DogByBreeds
 
